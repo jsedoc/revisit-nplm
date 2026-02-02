@@ -2,6 +2,8 @@
 
 This notebook (`simple_nplm.ipynb`) provides a **faithful, production-quality implementation** of the Neural Probabilistic Language Model (NPLM) as implemented in this repository.
 
+> **Note**: The notebook is named "simple" for consistency with the original request, but the implementation is **not simplified** - it contains the complete, faithful production code from the repository.
+
 ## Overview
 
 The notebook implements the **complete NPLM architecture** by cherry-picking code directly from the source files:
@@ -14,11 +16,16 @@ The notebook implements the **complete NPLM architecture** by cherry-picking cod
 
 ## Requirements
 
-Install the required packages from the main requirements.txt:
+The notebook requires the same dependencies as the main repository. Install from the repository's requirements.txt:
 
 ```bash
 pip install -r requirements.txt
 ```
+
+Key dependencies:
+- `torch>=1.7.1`
+- `numpy>=1.19.5`
+- `tqdm>=4.32.1`
 
 ## Running the Notebook
 
