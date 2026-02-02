@@ -1,14 +1,16 @@
-# Simple NPLM Notebook
+# Faithful NPLM Implementation Notebook
 
-This notebook (`simple_nplm.ipynb`) provides a minimal, self-contained implementation of the Neural Probabilistic Language Model (NPLM).
+This notebook (`simple_nplm.ipynb`) provides a **complete, production-quality implementation** of the Neural Probabilistic Language Model (NPLM) directly from the repository's source code.
 
 ## Overview
 
-The notebook implements a simplified version of the NPLM architecture that:
-- Uses word embeddings to represent tokens
-- Concatenates embeddings from a fixed context window
-- Processes them through a feed-forward neural network
-- Predicts the next word in a sequence
+The notebook implements the **full NPLM architecture** that:
+- Uses adaptive token embeddings with optional projection
+- Concatenates embeddings from configurable context windows
+- Applies global context aggregation with learned or fixed kernels
+- Processes through multi-layer NPLM decoder stack
+- Supports adaptive softmax for efficient large vocabulary modeling
+- Includes label smoothing and proper regularization
 
 ## Requirements
 
@@ -37,32 +39,41 @@ jupyter lab simple_nplm.ipynb
 ```
 
 3. Run all cells sequentially to:
-   - Create a simple text dataset
-   - Build and train the NPLM model
+   - Load all NPLM classes from the original implementation
+   - Create a synthetic dataset for demonstration
+   - Build the complete NPLM model with proper configuration
+   - Train the model with gradient clipping and loss tracking
    - Evaluate model performance
-   - Generate text
-   - Visualize word embeddings
+   - Inspect the model architecture
 
 ## What's Included
 
-The notebook contains:
-1. **Data Preprocessing**: Simple tokenization and vocabulary building
-2. **Model Architecture**: Clean PyTorch implementation of NPLM
-3. **Training Loop**: Basic training with loss tracking
-4. **Evaluation**: Perplexity calculation and next-word prediction
-5. **Text Generation**: Autoregressive text generation
-6. **Visualization**: Training loss curves and word embedding plots
+The notebook contains the **complete implementation** with:
+1. **TokenEmbedding**: Adaptive embedding layer with hierarchical projections
+2. **PositionEmbedding**: Sinusoidal position encoding for Transformer-N variant
+3. **AdaptiveSoftmax**: Hierarchical softmax for large vocabularies
+4. **NPLMFF**: Feed-forward network with configurable projections
+5. **NPLMSublayer**: Residual connection wrapper with layer normalization
+6. **NPLMLayer**: Core NPLM layer with context concatenation and global aggregation
+7. **NPLM**: Complete model with all training capabilities
+8. **Training Loop**: Production-quality training with gradient clipping
+9. **Evaluation**: Perplexity and NLL calculation
+10. **Synthetic Dataset**: Simple dataset for demonstration
 
-## Key Differences from Full Implementation
+## Fidelity to Original Implementation
 
-This is a simplified educational implementation. The full NPLM model in this repository includes:
-- Adaptive softmax for large vocabularies
-- Distant context aggregation with learned kernels
-- Multiple decoder layers
-- Transformer hybrid architectures (Transformer-N)
-- Distributed training support
+This notebook contains the **actual production code** from the repository:
+- ✅ Complete `TokenEmbedding` from `models/embeddings.py`
+- ✅ Complete `PositionEmbedding` from `models/embeddings.py`
+- ✅ Complete `AdaptiveSoftmax` from `models/adaptive_softmax.py`
+- ✅ Complete `NPLM`, `NPLMLayer`, `NPLMFF`, `NPLMSublayer` from `models/nplm.py`
+- ✅ Complete utility functions from `utils/__init__.py`
+- ✅ All hyperparameters and architectural details preserved
 
-For production use cases, refer to the full implementation in the `models/` directory.
+**This is NOT a simplified version** - it's the actual implementation cherry-picked directly from the source files. The only differences are:
+- Uses a synthetic dataset instead of loading from disk
+- Simplified training loop (no checkpointing, distributed training)
+- No command-line argument parsing
 
 ## Learning Resources
 
@@ -70,10 +81,32 @@ For production use cases, refer to the full implementation in the `models/` dire
 - Modern NPLM paper: Sun & Iyyer (2021) - "Revisiting Simple Neural Probabilistic Language Models"
 - Full paper: https://arxiv.org/pdf/2104.03474.pdf
 
+## Key Architecture Features
+
+This implementation includes:
+
+### Context Configuration
+- **ngm** (3): Number of recent tokens concatenated with full embeddings
+- **wsz** (4): Window size for distant context averaging
+- **concat_layers** ([0]): Which layers apply context concatenation
+
+### Global Aggregation
+- **average**: Uniform averaging of distant context windows
+- **kernel**: Learned convolution kernels for aggregation
+
+### Model Configuration
+- **embedding_size**: 256 (token embedding dimension)
+- **model_size**: 256 (model hidden dimension)
+- **hidden_dim**: 1024 (feed-forward expansion)
+- **num_layers**: 4 (number of NPLM layers)
+- **dropout_p**: 0.1 (dropout rate)
+
 ## Next Steps
 
-After understanding this simple implementation, you can:
-1. Explore the full NPLM implementation in `models/nplm.py`
-2. Train on larger datasets using the main training script
-3. Experiment with different architectures (Transformer, Transformer-N)
-4. Compare perplexity scores on benchmark datasets
+After running this notebook, you can:
+1. Modify `SimpleConfig` to experiment with different architectures
+2. Replace `SimpleDataset` with real text data from `data/text.py`
+3. Enable adaptive softmax by setting `config.adaptive = True`
+4. Try Transformer-N variant by setting `config.TFN = True`
+5. Train on larger datasets using the full training script with `main.py`
+6. Compare with transformer baselines
