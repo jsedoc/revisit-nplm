@@ -70,7 +70,7 @@ This notebook contains the **actual production code** from the repository:
 - ✅ Complete utility functions from `utils/__init__.py`
 - ✅ All hyperparameters and architectural details preserved
 
-**This is NOT a simplified version** - it's the actual implementation cherry-picked directly from the source files. The only differences are:
+**This is NOT a simplified version** - it's the actual implementation copied directly from the production source files. The only differences are:
 - Uses a synthetic dataset instead of loading from disk
 - Simplified training loop (no checkpointing, distributed training)
 - No command-line argument parsing
